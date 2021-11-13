@@ -27,7 +27,7 @@ class OwnerView(View):
                     'name' : owner.name,
                     'email' : owner.email,
                     'age' : owner.age,
-                    'dog' : list(map(lambda x : x.name ,owner.dog_set.all()))
+                    'dog' : [x.name for x in owner.dog_set.all()]
                 }
             )
         return JsonResponse({'results' : results}, status = 200)
