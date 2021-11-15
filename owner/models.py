@@ -16,13 +16,4 @@ class Dog(models.Model):
     class Meta:
         db_table = 'dogs'
 
-class Actor(models.Model):
-    first_name = models.CharField()
-    last_name = models.CharField()
-    date_of_birth = models.DateField(default='')
-    movie = models.ManyToManyField('Movie')
 
-class Movie(models.Model):
-    title = models.CharField()
-    release_date = models.DateField(default='')
-    runnnig_time = models.IntegerField()
