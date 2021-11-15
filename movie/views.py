@@ -1,3 +1,4 @@
+from django.db.models.query import Prefetch
 from django.shortcuts import render
 
 # Create your views here.
@@ -6,18 +7,10 @@ import json
 from django.http import JsonResponse
 from django.views import View
 from movie.models import Movie, Actor
+from django.utils import timezone
 
 # Actors
 class ActorView(View):
-    # post 
-    def post(self, request): 
-        data = json.loads(request.body)
-        Actor.objects.create(
-            first_name    = data['first_name'],
-            last_name     = data['last_name'],
-            date_of_birth = data['date_of birth'],
-            )
-        return JsonResponse({'MESSAGE' : 'Created'}, status = 201)
     # get
     def get(self, request): 
         results = []
@@ -25,25 +18,16 @@ class ActorView(View):
         for actor in actors:
             results.append(
                 {
-                    'first_name'   : actor.first_name,
-                    'last_name'    : actor.last_name,
-                    'date_of_birth': actor.date_of_birth,
-                    'movie'        : actor.movie.name
+                    '이름'  : actor.first_name,
+                    '성'   : actor.last_name,
+                    '생일'  : actor.date_of_birth,
+                    '출연영화': [x.title for x in actor.movie.all()]
                 }
             )
         return JsonResponse({'results' : results}, status = 200)
 
 # Movie
 class MovieView(View):
-    # post 
-    def post(self, request): 
-        data = json.loads(request.body)
-        Actor.objects.create(
-            title        = data['title'],
-            release_date = data['release_date'],
-            running_time = data['running_time'],
-        )
-        return JsonResponse({'MESSAGE' : 'Created'}, status = 201)
     # get
     def get(self, request): 
         results = []
@@ -53,7 +37,7 @@ class MovieView(View):
                 {
                     'title'       : movie.title,
                     'release_date': movie.release_date,
-                    'running_time': movie.ruunning_time,
+                    'running_time': movie.running_time,
                     'actor'       : [x.first_name for x in movie.actor_set.all()]
                 }
             )

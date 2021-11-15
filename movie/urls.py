@@ -4,6 +4,6 @@ from movie.views import MovieView, ActorView
 
 
 urlpatterns = [
-    path('actor', ActorView.as_view()),
-    path('movie', MovieView.as_view()),
+    path('actor/', ActorView.as_view()),
+    path('movie/', MovieView.as_view()),
 ]
