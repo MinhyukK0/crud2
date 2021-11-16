@@ -53,7 +53,7 @@ class DogView(View):
         return JsonResponse({"MESSAGE" : "CREATED"}, status = 201)
     # get 기능
     def get(self, request): 
-        dogs    = Dog.objects.all()
+        dogs    = Dog.objects.select_related('owner').all()
         results = []
         for dog in dogs: 
             results.append(

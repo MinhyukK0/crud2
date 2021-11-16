@@ -14,7 +14,7 @@ class ActorView(View):
     # get
     def get(self, request): 
         results = []
-        actors = Actor.objects.all()
+        actors = Actor.objects.prefetch_related('movie').all()
         for actor in actors:
             results.append(
                 {
@@ -40,7 +40,7 @@ class MovieView(View):
     # get
     def get(self, request): 
         results = []
-        movies = Movie.objects.all()
+        movies = Movie.objects.prefetch_related('actor_set').all()
         for movie in movies:
             results.append(
                 {
